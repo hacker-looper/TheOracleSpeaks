@@ -172,7 +172,9 @@ The project uses a warm beige color scheme design system to create an elegant an
 
 ## License
 
-This project content is sourced from "The Oracle Speaks - David Andrews" for learning and reference purposes only.
+This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
+
+The project content is sourced from "The Oracle Speaks - David Andrews" for learning and reference purposes only.
 
 ## Contributing
 
