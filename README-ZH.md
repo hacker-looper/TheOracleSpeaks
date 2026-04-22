@@ -4,7 +4,7 @@
 
 基于电子书： The Oracle Speaks - David Andrews.epub为内容将epub内容转化为json格式，再生成的 Warren Buffett语录展示网站，精选投资/商业/财富/人生等智慧语录，支持中英文对照和交互式卡片翻转效果。
 ![alt text](docs/image.png)
-@see http://xooper.cn/web/theoraclespeaks/index.html
+@see https://xooper.cn/web/theoraclespeaks/index.html
 
 ## 功能特性
 

@@ -4,7 +4,7 @@
 
 A beautiful Warren Buffett quotes display website that converts EPUB content to JSON format and then generates the website, featuring curated investment/business/wealth/life wisdom quotes with bilingual Chinese-English support and interactive card flip effects.
 ![alt text](docs/image.png)
-@see http://xooper.cn/web/theoraclespeaks/index.html
+@see https://xooper.cn/web/theoraclespeaks/index.html
 
 ## Features
 
