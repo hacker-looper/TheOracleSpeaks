@@ -1,181 +1,131 @@
-# The Oracle Speaks - Warren Buffett's Quote Website
+# The Oracle Speaks
 
-[English](README.md) | [中文](README_ZH.md)
+[English](README.md) | [中文](README-ZH.md)
 
-A beautiful Warren Buffett quotes display website that converts EPUB content to JSON format and then generates the website, featuring curated investment/business/wealth/life wisdom quotes with bilingual Chinese-English support and interactive card flip effects.
-![alt text](docs/image.png)
-@see https://xooper.cn/web/theoraclespeaks/index.html
+A curated Warren Buffett quote website built from structured quote data, with editorial warm-beige styling, category filters, search, and paginated reading.
 
-## Features
+![Project screenshot](docs/image.png)
 
-- 📚 **Curated Quotes** - Collection of Buffett's classic investment wisdom
-- 🌐 **Bilingual Support** - Each quote includes Chinese translation and English original text
-- 🎴 **Card Flip Effect** - Double-click cards to view English original text
-- 🎨 **Beautiful Design** - Warm beige color scheme design system
-- 🔍 **Search Function** - Search quotes by content
-- 📄 **Pagination** - Display 20 quotes per page
-- 📱 **Responsive Design** - Support for desktop and mobile devices
+## Current Experience
 
-## Project Structure
+- Warren Buffett quote cards
+- Warm editorial card layout
+- Category badges: `Investing`, `Business`, `Wealth`, `Life`
+- Search by quote text or source
+- Category filtering
+- Pagination with 12 cards per page
+- Amazon purchase link for the book
+- Responsive layout for desktop and mobile
 
-```
+## Main Files
+
+```text
 TheOracleSpeaks/
-├── README_ZH.md                    # Project documentation (Chinese)
-├── README.md                       # Project documentation (English)
-├── redbook_cards.json              # Quote data
-├── redbook_cards.html              # Generated HTML file
-├── redbook_cards_flip_warmbeige.html  # Warm beige flip effect HTML
-├── redbook_cards_warmbeige.html    # Warm beige HTML
-├── parse_quotes.py                 # EPUB quote parsing script
-├── generate_html.py                # Main HTML generation script
-├── generate_apple_design.py        # Apple style HTML generator
-├── generate_html_flip.py           # Flip effect HTML generator
-├── generate_html_flip_warmbeige.py # Warm beige flip effect HTML generator
-├── generate_html_warmbeige.py      # Warm beige HTML generator
-├── generate_html_mobile_swipe.py   # Mobile swipe effect HTML generator
-├── start-server.ps1                # Local server startup script
-├── theoraclesays.png               # Project icon/LOGO
-├── docs/                           # Documentation directory
-│   ├── The Oracle Speaks - David Andrews.epub  # Original EPUB book
-│   └── image.png                   # Project screenshot
-└── temp/                           # Temporary files directory
+├── README.md
+├── redbook_cards.json
+├── redbook_cards.html
+├── redbook_cards_warmbeige.html
+├── redbook_cards_flip_warmbeige.html
+├── redbook_cards_flip_warmbeige_redesign.html
+├── generate_html.py
+├── generate_html_warmbeige.py
+├── generate_html_flip.py
+├── generate_html_flip_warmbeige.py
+├── generate_html_flip_warmbeige_redesign.py
+├── generate_html_mobile_swipe.py
+├── generate_apple_design.py
+├── parse_quotes.py
+├── start-server.ps1
+├── theoraclesays.png
+├── docs/
+│   └── image.png
+└── temp/
 ```
+
+## Recommended Entry Page
+
+Open:
+
+```text
+redbook_cards_flip_warmbeige_redesign.html
+```
+
+This is the most up-to-date redesigned reading surface in the repository.
 
 ## Quick Start
 
-### 1. Generate HTML File
-
-```powershell / cmd
-python generate_html_flip_warmbeige.py
-```
-
-### 2. Start Local Server
+### 1. Open the redesigned page directly
 
 ```powershell
-# Start server using PowerShell
+start .\redbook_cards_flip_warmbeige_redesign.html
+```
+
+### 2. Or run a local server
+
+```powershell
 .\start-server.ps1
 ```
 
-Server will start at `http://localhost:8000/`
+Then visit:
 
-### 3. Access Website
-
-Open `http://localhost:8000/redbook_cards_flip_warmbeige.html` in your browser
-
-## Usage Guide
-
-### View English Original Text
-- Double-click any quote card to flip and view English original text
-- Double-click again to return to Chinese version
-
-### Search Quotes
-- Enter keywords in the search box at the top of the page
-- Supports searching Chinese translations, English original text, and source information
-
-### Pagination Navigation
-- Use "Previous" and "Next" buttons at the bottom to browse
-- 20 quotes displayed per page
+```text
+http://localhost:8000/redbook_cards_flip_warmbeige_redesign.html
+```
 
 ## Data Format
 
-Each quote contains the following fields:
+Each quote in `redbook_cards.json` contains:
 
 ```json
 {
-    "id": 1,
-    "text": "Chinese translation content",
-    "source": "——Source information",
-    "original_text": "English original text",
-    "original_source": "—English source"
+  "id": 1,
+  "text": "Chinese translation",
+  "source": "Chinese source",
+  "original_text": "English quote",
+  "original_source": "English source"
 }
 ```
 
-## Data Processing Workflow
+## Workflow
 
-The project uses the `parse_quotes.py` script to extract and process quote data from the EPUB ebook. The main workflow is as follows:
+### 1. Parse quote content
 
-### 1. Extract Quotes (extract_quotes)
-- Reads XHTML files from the `temp/OEBPS/xhtml` directory (extracted from EPUB)
-- Uses BeautifulSoup to parse HTML and find quote paragraph tags (`quote`, `quotec`, `quote-in`)
-- Extracts quote text and corresponding source information
-- Returns a list of original quotes
+`parse_quotes.py` extracts quote/source pairs from EPUB-derived XHTML content in `temp/`.
 
-### 2. Translate Text (translate_text)
-- Uses the `translators` library for translation
-- Prioritizes Baidu translation API, automatically falls back to Google translation on failure
-- Supports retry mechanism (default 3 attempts) with exponential backoff delay
-- Preserves original text and logs errors if translation fails
+### 2. Build structured data
 
-### 3. Generate Card Data (generate_redbook_cards)
-- Iterates through the extracted quote list
-- Translates both the text and source of each quote to Chinese
-- Constructs card data structure with bilingual support
-- Adds delays to avoid API rate limiting
+Processed quote data is saved to:
 
-### 4. Save Data (save_cards)
-- Saves processed card data in JSON format
-- Output file: `redbook_cards.json`
-- Uses UTF-8 encoding to ensure proper Chinese character handling
+```text
+redbook_cards.json
+```
 
-### 5. HTML Generation Scripts
-- `generate_html.py` - Basic HTML generator
-- `generate_apple_design.py` - Apple style design HTML generator
-- `generate_html_flip.py` - Flip effect HTML generator
-- `generate_html_flip_warmbeige.py` - Warm beige flip effect HTML generator
-- `generate_html_warmbeige.py` - Warm beige HTML generator
-- `generate_html_mobile_swipe.py` - Mobile swipe effect HTML generator
+### 3. Generate HTML variants
 
-### Dependencies
-- `BeautifulSoup` - HTML parsing
-- `translators` - Multi-engine translation support
-- `json` - Data serialization
-- `time` - Delay control
+Available generators include:
 
-## Design Specifications
+- `generate_html.py`
+- `generate_html_warmbeige.py`
+- `generate_html_flip.py`
+- `generate_html_flip_warmbeige.py`
+- `generate_html_flip_warmbeige_redesign.py`
+- `generate_html_mobile_swipe.py`
+- `generate_apple_design.py`
 
-The project uses a warm beige color scheme design system to create an elegant and comfortable reading experience:
+## Notes
 
-- **Color Scheme**:
-  - Page background: #f8f5f0 (warm beige)
-  - Card front: #ffffff (pure white)
-  - Card back: #f4f0ea (light beige)
-  - Primary text: #5a4a3f (dark brown)
-  - Secondary text: #8a7866 (medium brown)
-  - Border decoration: #e6ddd0, #d4c8b8 (light brown)
-
-- **Typography**: Georgia and Times New Roman serif fonts for a classic reading experience
-
-- **Card Design**:
-  - Rounded corners (12px)
-  - Subtle shadow effects
-  - Top gradient decorative bar
-  - 3D flip animation effect
-
-- **Interaction Feedback**:
-  - Double-click card to flip and view English original text
-  - Smooth 0.8s transition animation
-  - Hover effects enhance visual feedback
+- The redesigned page currently focuses on English quote display.
+- The local EPUB source file is no longer kept in the repository.
+- The hero CTA links users to Amazon instead of downloading a local ebook file.
 
 ## Tech Stack
 
-- **HTML5** - Page structure
-- **CSS3** - Styles and animation effects
-- **JavaScript** - Interaction logic (flip, search, pagination)
-- **Python** - HTML generation scripts
-- **PowerShell** - Local server
-
-## Browser Compatibility
-
-- Chrome/Edge 90+
-- Firefox 88+
-- Safari 14+
+- HTML5
+- CSS3
+- JavaScript
+- Python
+- PowerShell
 
 ## License
 
-This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
-
-The project content is sourced from "The Oracle Speaks - David Andrews" for learning and reference purposes only.
-
-## Contributing
-
-Issues and improvement suggestions are welcome!
+Licensed under the Apache License 2.0. See [LICENSE](LICENSE).
